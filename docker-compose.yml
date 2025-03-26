@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mineru-api:
+    image: mineru-api:latest
+    build: .
+    container_name: mineru-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8G  # 根据需要调整内存限制
+        reservations:
+          memory: 4G  # 根据需要调整内存预留
+    # 启用NVIDIA容器工具包，访问主机GPU
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all 
